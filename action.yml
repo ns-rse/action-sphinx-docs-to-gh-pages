@@ -82,6 +82,10 @@ runs:
       run: |
         echo ::group::Sphinx apidocs generation
         sphinx-apidoc ${{ inputs.sphinxapiopts }}  ${{ inputs.sphinxapiexclude }}
+        echo "WHERE ARE WE?"
+        pwd
+        echo "WHAT .rst FILES ARE THERE?"
+        ls -l *.rst
         echo ::endgroup::
     - name: sphinx html docs compilation
       shell: bash -l {0}      # This is needed to work with conda here. See:https://github.com/marketplace/actions/setup-miniconda#IMPORTANT
