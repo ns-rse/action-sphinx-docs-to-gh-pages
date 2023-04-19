@@ -40,6 +40,10 @@ inputs:
     description: Whether to build multiple versions of documentation
     required: false
     default: false
+  multiversion_redirect:
+    description: Branch to redirect to in gh-pages/index.html
+    required: false
+    default: 'main'
   multiversionopts:
     description: Options for sphinx-multiversion
     required: false
@@ -123,6 +127,16 @@ runs:
         echo "Last update of sphinx html documentation from [$SHORT_SHA](https://github.com/$GITHUB_REPOSITORY/tree/$SHA)" >> "$DIR_HTML/README.md"
         cat "$DIR_HTML/README.md"
         echo ::endgroup::
+        if ${{ inputs.multiversion }} ; then
+        echo ::group::Create an index.html to redirect to branch ${{ inputs:multiversion_redirect }} for multiversion docs
+        echo -e "<!DOCTYPE html>\n<html>\n<head>" > index.html
+        echo -e "<title>Redirecting to ${{ inputs:multiversion_redirect }} branch</title>" >> index.html
+        echo -e '<meta charset="utf-8">' >> index.html
+        echo -e '<meta http-equiv="refresh" content="0; url=./${{ inputs:multiversion_redirect }}/index.html">' >> index.html
+        echo -e '<link rel="canonical" href="https://afm-spm.github.io/TopoStats/${{ inputs:multiversion_redirect }}/index.html">' >> index.html
+        echo -e "</head>\n</html>" >> index.html
+        echo ::endgroup::
+        fi
         echo ::group::Create .nojekyll in case 'sphinx.ext.githubpages' is not used
         touch "$DIR_HTML"/.nojekyll
         echo ::endgroup::
