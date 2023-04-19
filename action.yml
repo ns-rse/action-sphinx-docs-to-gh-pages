@@ -34,6 +34,14 @@ inputs:
     description: Compilation options for sphinx-build
     required: false
     default: ''
+  multiversion:
+    description: Whether to build multiple versions of documentation
+    required: false
+    default: false
+  multiversionopts:
+    description: Options for sphinx-multiversion
+    required: false
+    default: ''
 
 runs:
   using: "composite"
