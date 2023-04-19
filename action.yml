@@ -111,7 +111,7 @@ runs:
         cat $DIR_HTML/README.md
         echo ::endgroup::
         if ${{ inputs.multiversion }} ; then
-        BRANCH=${{ inputs:multiversion_redirect }}
+        BRANCH=${{ inputs.multiversion_redirect }}
         echo ::group::Create an index.html to redirect to branch $BRANCH for multiversion docs
         echo -e "<!DOCTYPE html>\n<html>\n<head>" > index.html
         echo -e "<title>Redirecting to  branch</title>" >> index.html
