@@ -85,7 +85,7 @@ runs:
       shell: bash
       run: |
            git checkout ${{ inputs.branch-checkout-args }} "${{ inputs.branch }}"
-    - name: sphinx apidoc generation
+    - name: Sphinx apidoc generation
       shell: bash -l {0}
       working-directory: ./${{ inputs.dir_docs }}
       run: |
@@ -101,16 +101,7 @@ runs:
       working-directory: ./${{ inputs.dir_docs }}
       run: |
         echo ::group::Sphinx docs compilation
-        echo "WHERE ARE WE?"
-        pwd
-        echo "WHAT .rst FILES ARE THERE?"
-        ls -l *.rst
         if ${{ inputs.multiversion }} ; then
-            echo "WHAT .rst FILES ARE THERE?"
-            ls -l *.rst
-            sphinx-apidoc ${{ inputs.sphinxapiopts }}  ${{ inputs.sphinxapiexclude }}
-            echo "WHAT .rst FILES ARE THERE?"
-            ls -l *.rst
             sphinx-multiversion . _build/html ${{ inputs.multiversionopts }}
         else
             sphinx-build -M html . _build ${{ inputs.sphinx-opts }}
