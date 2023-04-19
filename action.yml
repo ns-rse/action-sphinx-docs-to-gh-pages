@@ -74,7 +74,11 @@ runs:
       working-directory: ./${{ inputs.dir_docs }}
       run: |
         echo ::group::Sphinx docs compilation
-        sphinx-build -M html . _build ${{ inputs.sphinxopts }}
+        if [ ${{ inputs.multiversion }} -eq "true" ]; then
+            sphinx-multiversion . _build/html ${{ inputs.multiversionopts }}
+        else
+            sphinx-build -M html . _build ${{ inputs.sphinxopts }}
+        fi
         echo ::endgroup::
     - name: pushing to gh-pages
       shell: bash
