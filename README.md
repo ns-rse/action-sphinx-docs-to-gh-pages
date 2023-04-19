@@ -20,6 +20,15 @@ Mexico City Children's Hospital Federico Gómez](https://www.uibcdf.org/) (see a
 [Contributers](https://github.com/uibcdf/action-sphinx-docs-to-gh-pages/graphs/contributors)). Other GitHub Actions can
 be found at [the UIBCDF GitHub site](https://github.com/search?q=topic%3Agithub-actions+org%3Auibcdf&type=Repositories).
 
+Support is now provided for building multiple versions of the documentation using
+[sphinx-multiversion](https://holzhaus.github.io/sphinx-multiversion/master/). If you wish to use this be sure to read
+the [configuration](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html) section and update your
+package optional dependencies and `docs/conf.py` to not only include the required package but configure which
+tags/branches to build the documentation for. Note also the section on [Hosting on GitHub Pages — sphinx-multiversion
+0.2.4 documentation](https://holzhaus.github.io/sphinx-multiversion/master/github_pages.html) and in particular the need
+to add an `index.html` to the `gh-pages` branch to redirect requests.
+
+
 ## Requirements
 
 ### GitHub Pages taking the source from the branch gh-pages
@@ -78,6 +87,8 @@ jobs:
           sphinx-apidoc-opts: '--separate -o . ../'
           sphinx-apidoc-exclude: '../*setup* ../*.ipynb'
           sphinx-opts: ''
+          multiversion: true
+          multiversionopts: ''
 ```
 
 Two things need to be known to run the GitHub Actions without further work: the meaning of the input parameters and the
@@ -87,6 +98,7 @@ YAML file to make a temporary Conda environment where the sphinx documentation c
 
 These are the input parameters of the action:
 
+<<<<<<< HEAD
 | Input parameters        | Description                                                                                         | Default value    |
 |-------------------------|-----------------------------------------------------------------------------------------------------|------------------|
 | `branch`                | Name of the branch where the sphinx documentation is located                                        | `main`           |
@@ -96,6 +108,8 @@ These are the input parameters of the action:
 | `sphinx-apidoc-exclude` | With sphinx-apidoc                                                                                  | `*setup* tests*` |
 | `sphinx-apidoc-opts`    | Options for sphinx-apidoc (default outputs to dir_docs and searches for modules one level up)       | '-o . ../'       |
 | `sphinx-opts`           | Compilation options for sphinx-build                                                                | ''               |
+| `multiversion`     | Use [sphinx-multiversion]() to build multiple versions of the documentation. | `false` |
+| `multiversionopts` | Options passed to `sphinx-multiversion` (see [documentation](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#overriding-configuration-variables)) | '' |
 
 They are placed in the last lines of the above workflow example file:
 
@@ -108,6 +122,8 @@ They are placed in the last lines of the above workflow example file:
             sphinx-opts: ''
             sphinx-apidoc-opts: '--separate -o . ../'
             sphinx-apidoc-exclude: '../*.ipynb'
+            multiversion: false
+            multiversionopts: ''
 ```
 
 In case your sphinx documentation is placed in a directory named 'docs' in the 'main' branch to be
@@ -144,6 +160,7 @@ dependencies:
   - nbsphinx
   - recommonmark
   - sphinx-markdown-tables
+  - sphinx-multiversion
 ```
 
 And replace the value of the workflow input parameter `environment-file:` with the right path to your documentation conda enviroment file. In
@@ -162,9 +179,10 @@ jobs:
 
 #### `setup.cfg`
 
-Many Python packages use [setuptools]() for configuring installation via the `setup.cfg` file. One section of this is
-the `[options.extras_require]` where packages not required for running the package but used in testing or building
-documentation can be listed. To list your documentation build requirements add the following to your `setup.cfg`
+Many Python packages use [setuptools](https://setuptools.pypa.io/en/latest/userguide/) for configuring installation via
+the `setup.cfg` file. One section of this is the `[options.extras_require]` where packages not required for running the
+package but used in testing or building documentation can be listed. To list your documentation build requirements add
+the following to your `setup.cfg`.
 
 ``` cfg
 [options.extras_require]
@@ -176,6 +194,28 @@ docs =
   sphinx_markdown_tables
   sphinx_rtd_theme
   sphinxcontrib-mermaid
+  sphinx-multiversion
+```
+
+#### `pyproject.toml`
+
+Increasingly it is recommended by setuptools to use
+[`pyproject.toml`](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html) to configure your
+package. Optional dependencies for documentation can be included as follows.
+
+``` cfg
+[project.optional-dependencies]
+docs = [
+  "Sphinx",
+  "sphinx_rtd_theme",
+  "numpydoc",
+  "myst_parser",
+  "pydata_sphinx_theme",
+  "sphinx_markdown_tables",
+  "sphinxcontrib-mermaid",
+  "sphinx-multiversion",
+]
+
 ```
 
 Then in your `sphinx_docx_to_gh_pages.yaml` that you have created under the `.github/workflows/` directory replace the
