@@ -24,9 +24,9 @@ Support is available for building multiple versions of the documentation using
 [sphinx-multiversion](https://holzhaus.github.io/sphinx-multiversion/master/). If you wish to use this be sure to read
 the [configuration](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html) section and update your
 package optional dependencies and `docs/conf.py` to not only include the required package but configure which
-tags/branches to build the documentation for. Note also the section on [Hosting on GitHub Pages — sphinx-multiversion
-0.2.4 documentation](https://holzhaus.github.io/sphinx-multiversion/master/github_pages.html) and in particular the need
-to add an `index.html` to the `gh-pages` branch to redirect requests.
+tags/branches to build the documentation for. Note also the section on [Hosting on GitHub
+Pages](https://holzhaus.github.io/sphinx-multiversion/master/github_pages.html) and in particular the need to add an
+`index.html` to the `gh-pages` branch to redirect requests.
 
 
 ## Requirements
@@ -42,7 +42,7 @@ source.
 
 The compilation of your sphinx documentation requires dependencies that can be solved with a
 temporary conda environment. Make sure that the repository has a Yaml file with the details to make
-this environment (see the section ["Documentation conda environment"](#Documentation-conda-environment)).
+this environment (see the section [Documentation conda environment](#Documentation-conda-environment)).
 
 ## How to use it
 
@@ -98,7 +98,6 @@ YAML file to make a temporary Conda environment where the sphinx documentation c
 
 These are the input parameters of the action:
 
-<<<<<<< HEAD
 | Input parameters        | Description                                                                                         | Default value    |
 |-------------------------|-----------------------------------------------------------------------------------------------------|------------------|
 | `branch`                | Name of the branch where the sphinx documentation is located                                        | `main`           |
@@ -109,7 +108,7 @@ These are the input parameters of the action:
 | `sphinx-apidoc-opts`    | Options for sphinx-apidoc (default outputs to dir_docs and searches for modules one level up)       | '-o . ../'       |
 | `sphinx-opts`           | Compilation options for sphinx-build                                                                | ''               |
 | `multiversion`     | Use [sphinx-multiversion]() to build multiple versions of the documentation. | `false` |
-| `multiversionopts` | Options passed to `sphinx-multiversion` (see [documentation](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#overriding-configuration-variables)) | '' |
+| `multiversionopts` | Options passed to `sphinx-multiversion` (see [documentation](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#overriding-configuration-variables)) | `''` |
 
 They are placed in the last lines of the above workflow example file:
 
@@ -248,7 +247,7 @@ If you think that your GitHub Action should be mentioned here, fell free to PR w
 ### Sphinx
 
 * [sphinx-pages](https://github.com/seanzhengw/sphinx-pages)
-* [spinx-action](https://github.com/ammaraskar/sphinx-action)
+* [sphinx-action](https://github.com/ammaraskar/sphinx-action)
 * [action-sphinx-composite](https://github.com/rickstaa/action-sphinx-composite)
 
 ### GitHub Pages
@@ -266,14 +265,17 @@ If you think that your GitHub Action should be mentioned here, fell free to PR w
 
 * [github-push-action](https://github.com/ad-m/github-push-action)
 
-### Shinx + GitHub Pages
+### Sphinx + GitHub Pages
 
 * [pages](https://github.com/sphinx-notes/pages)
-* [spinx-pages](https://github.com/seanzhengw/sphinx-pages)
+* [sphinx-pages](https://github.com/seanzhengw/sphinx-pages)
+* [sphinx-multiversion - Hosting on GitHub
+Pages](https://holzhaus.github.io/sphinx-multiversion/master/github_pages.html)
 
 ## Links
 
 * [GitHub Pages](https://pages.github.com/)
 * [GitHub Actions](https://github.com/features/actions)
 * [Sphinx](https://www.sphinx-doc.org/en/master/)
+* [sphinx-multiversion](https://holzhaus.github.io/sphinx-multiversion/master/)
 * [YAML](https://yaml.org/)
