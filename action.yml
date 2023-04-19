@@ -84,7 +84,7 @@ runs:
       working-directory: ./${{ inputs.dir_docs }}
       run: |
         echo ::group::Sphinx docs compilation
-        if [ ${{ inputs.multiversion }} -eq "true" ]; then
+        if ${{ inputs.multiversion }} ; then
             sphinx-multiversion . _build/html ${{ inputs.multiversionopts }}
         else
             sphinx-build -M html . _build ${{ inputs.sphinxopts }}
