@@ -1,6 +1,8 @@
 name: 'Sphinx docs to GitHub Pages'
 description: 'Automatic Sphinx html docs compilation and deployment through the gh-pages branch.'
-author: "Diego Prada-Gracia"
+author:
+  - "Diego Prada-Gracia"
+  - "Neil Shephard"
 branding:
   icon: "upload-cloud"
   color: "orange"
