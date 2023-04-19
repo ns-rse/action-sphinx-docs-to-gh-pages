@@ -131,10 +131,16 @@ runs:
         BRANCH=${{ inputs.multiversion_redirect }}
         echo ::group::Create an index.html to redirect to branch $BRANCH for multiversion docs
         echo -e "<!DOCTYPE html>\n<html>\n<head>" > $DIR_HTML/index.html
-        echo -e "<title>Redirecting to  branch</title>" >> $DIR_HTML/index.html
-        echo -e '<meta charset="utf-8">' >> index.html
-        echo -e '<meta http-equiv="refresh" content="0; url=./$BRANCH/index.html">' >> $DIR_HTML/index.html
-        echo -e '<link rel="canonical" href="https://afm-spm.github.io/TopoStats/$BRANCH/index.html">' >> $DIR_HTML/index.html
+        echo -n "<title>Redirecting to " >> $DIR_HTML/index.html
+        echo -n "${BRANCH}" >> $DIR_HTML/index.html
+        echo " branch</title>" >> $DIR_HTML/index.html
+        echo '<meta charset="utf-8">' >> index.html
+        echo -n '<meta http-equiv="refresh" content="0; url=./' >> $DIR_HTML/index.html
+        echo -n "${BRANCH}" >> $DIR_HTML/index.html
+        echo '/index.html">' >> $DIR_HTML/index.html
+        echo -n '<link rel="canonical" href="https://afm-spm.github.io/TopoStats/' >> $DIR_HTML/index.html
+        echo -n "${BRANCH}" >> $DIR_HTML/index.html
+        echo '/index.html">' >> $DIR_HTML/index.html
         echo -e "</head>\n</html>" >> $DIR_HTML/index.html
         cat $DIR_HTML/index.html
         echo ::endgroup::
