@@ -12,13 +12,21 @@ In summary, this GitHub action does the following:
 
 - Takes the author and SHA id of the trigger action (`push` or `pull request`) to be consistent along the action.
 - Creates a new `gh-pages` branch if this is not already in the repository.
-- Compiles the sphinx documentation in the directory and branch specified by the user.
+- Compiles the Sphinx documentation in the directory and branch specified by the user.
 - Pushes the output html documentation to the `gh-pages` branch.
 
 This GitHub Action was developed by [the Computational Biology and Drug Design Research Unit -UIBCDF- at the
 Mexico City Children's Hospital Federico Gómez](https://www.uibcdf.org/) (see also
 [Contributers](https://github.com/uibcdf/action-sphinx-docs-to-gh-pages/graphs/contributors)). Other GitHub Actions can
 be found at [the UIBCDF GitHub site](https://github.com/search?q=topic%3Agithub-actions+org%3Auibcdf&type=Repositories).
+
+## API Documentation
+
+Generating documentation for the API is supported but in two forms depending on whether you are generating a single
+version of documentation or multiple versions. If you are only building a single version of documentation then you can
+pass options to `sphinx-apidoc` from your workflow (see below). If you are building multiple versions see the note below.
+
+## Multiversion Documentation
 
 Support is available for building multiple versions of the documentation using
 [sphinx-multiversion](https://holzhaus.github.io/sphinx-multiversion/master/). If you wish to use this be sure to read
@@ -28,6 +36,13 @@ tags/branches to build the documentation for. Note also the section on [Hosting 
 Pages](https://holzhaus.github.io/sphinx-multiversion/master/github_pages.html) and in particular the need to add an
 `index.html` to the `gh-pages` branch to redirect requests.
 
+**NB** If you wish to include API documentation for each tag/branch you are generating documentation for it is
+recommended that you also enable and use [sphinx-apiauto](https://sphinx-autoapi.readthedocs.io/en/latest/). This will
+generate the relevant `.rst` files _after_ checking out the relevant tag/branch but before generating the HTML pages.
+
+
+If generating multiple versions of documentation a default `index.html` is generated that will redirect to the
+documentation of a specific branch (by default `main`) but this can be configured (see below).
 
 ## Requirements
 
@@ -88,6 +103,7 @@ jobs:
           sphinxapiexclude: '../*setup* ../*.ipynb'
           sphinxopts: ''
           multiversion: false
+          multiversion_redirect: 'main'
           multiversionopts: ''
 ```
 
@@ -98,15 +114,16 @@ YAML file to make a temporary Conda environment where the sphinx documentation c
 
 These are the input parameters of the action:
 
-| Input parameters   | Description                                                                                         | Default value    |
-|--------------------|-----------------------------------------------------------------------------------------------------|------------------|
-| `branch`           | Name of the branch where the sphinx documentation is located                                        | `main`           |
-| `dir\_docs`        | Path where the sphinx documentation is located                                                      | `docs`           |
-| `sphinxopts`       | Compilation options for sphinx-build                                                                | `'-o . ../'`       |
-| `spinxapiopts`     | Options passed to `sphinx-apidoc`, typically the output directory and location to look for modules. | `''`               |
-| `sphinxapiexclude` | Files to be excluded from API documentation generation, by default `tests/` are excluded.           | `*setup* tests*` |
-| `multiversion`     | Use [sphinx-multiversion]() to build multiple versions of the documentation. | `false` |
-| `multiversionopts` | Options passed to `sphinx-multiversion` (see [documentation](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#overriding-configuration-variables)) | `''` |
+| Input parameters        | Description                                                                                                                                                                                                                          | Default value    |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
+| `branch`                | Name of the branch where the sphinx documentation is located                                                                                                                                                                         | `main`           |
+| `dir\_docs`             | Path where the sphinx documentation is located                                                                                                                                                                                       | `docs`           |
+| `sphinxopts`            | Compilation options for sphinx-build                                                                                                                                                                                                 | `'-o . ../'`     |
+| `spinxapiopts`          | Options passed to `sphinx-apidoc`, typically the output directory and location to look for modules.                                                                                                                                  | `''`             |
+| `sphinxapiexclude`      | Files to be excluded from API documentation generation, by default `tests/` are excluded.                                                                                                                                            | `*setup* tests*` |
+| `multiversion`          | Use [sphinx-multiversion](https://holzhaus.github.io/sphinx-multiversion/master/) to build multiple versions of the documentation. It is recommended to also use [sphinx-autoapi](https://sphinx-autoapi.readthedocs.io/en/latest/). | `false`          |
+| `multiversion_redirect` | Branch to redirect to by default.                                                                                                                                                                                                    |                  |
+| `multiversionopts`      | Options passed to `sphinx-multiversion` (see [documentation](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#overriding-configuration-variables))                                                           | `''`             |
 
 They are placed in the last lines of the above workflow example file:
 
@@ -158,6 +175,7 @@ dependencies:
   - recommonmark
   - sphinx-markdown-tables
   - sphinx-multiversion
+  - sphinx-apiauto
 ```
 
 And replace the value of the workflow input parameter `environment-file:` with the right path to your documentation conda enviroment file. In
@@ -192,6 +210,7 @@ docs =
   sphinx_rtd_theme
   sphinxcontrib-mermaid
   sphinx-multiversion
+  sphinx-apiauto
 ```
 
 #### `pyproject.toml`
@@ -211,6 +230,7 @@ docs = [
   "sphinx_markdown_tables",
   "sphinxcontrib-mermaid",
   "sphinx-multiversion",
+  "sphinx-apiauto",
 ]
 
 ```
