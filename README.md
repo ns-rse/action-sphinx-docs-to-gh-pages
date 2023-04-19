@@ -20,7 +20,7 @@ Mexico City Children's Hospital Federico Gómez](https://www.uibcdf.org/) (see a
 [Contributers](https://github.com/uibcdf/action-sphinx-docs-to-gh-pages/graphs/contributors)). Other GitHub Actions can
 be found at [the UIBCDF GitHub site](https://github.com/search?q=topic%3Agithub-actions+org%3Auibcdf&type=Repositories).
 
-Support is now provided for building multiple versions of the documentation using
+Support is available for building multiple versions of the documentation using
 [sphinx-multiversion](https://holzhaus.github.io/sphinx-multiversion/master/). If you wish to use this be sure to read
 the [configuration](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html) section and update your
 package optional dependencies and `docs/conf.py` to not only include the required package but configure which
