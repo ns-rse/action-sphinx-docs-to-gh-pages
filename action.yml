@@ -140,7 +140,10 @@ runs:
         echo -n '<meta http-equiv="refresh" content="0; url=./' >> $DIR_HTML/index.html
         echo -n "${BRANCH}" >> $DIR_HTML/index.html
         echo '/index.html">' >> $DIR_HTML/index.html
-        echo -n '<link rel="canonical" href="https://${GITHUB_USER}.github.io/${GITHUB_PROJECT}/' >> $DIR_HTML/index.html
+        echo -n '<link rel="canonical" href="https://' >> $DIR_HTML/index.html
+        echo -n "${GITHUB_USER}" >> $DIR_HTML/index.html
+        echo -n ".github.io/" >> $DIR_HTML/index.html
+        echo -n "${GITHUB_PROJECT}/" >> $DIR_HTML/index.html
         echo -n "${BRANCH}" >> $DIR_HTML/index.html
         echo '/index.html">' >> $DIR_HTML/index.html
         echo -e "</head>\n</html>" >> $DIR_HTML/index.html
