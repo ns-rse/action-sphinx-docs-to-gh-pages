@@ -130,8 +130,10 @@ runs:
         if ${{ inputs.multiversion }} ; then
         echo ::group::Create an index.html to redirect to branch $BRANCH for multiversion docs
         BRANCH=${{ inputs.multiversion_redirect }}
-        GITHUB_REPOSITORY_ARRAY = ($( echo GITHUB_REPOSITORY | tr '/' '\n'))
-        GITHUB_REPO_OWNER = $GITHUB_REPOSITORY_ARRAY[1]
+        echo "WHAT SHELL ARE WE USING?"
+        ps -p $$
+        echo $0
+        GITHUB_REPOSITORY_ARRAY=($( echo GITHUB_REPOSITORY | tr '/' '\n'))
         GITHUB_PROJECT = $GITHUB_REPOSITORY_ARRAY[2]
         echo -e "<!DOCTYPE html>\n<html>\n<head>" > $DIR_HTML/index.html
         echo -n "<title>Redirecting to " >> $DIR_HTML/index.html
@@ -141,7 +143,7 @@ runs:
         echo -n '<meta http-equiv="refresh" content="0; url=./' >> $DIR_HTML/index.html
         echo -n "${BRANCH}" >> $DIR_HTML/index.html
         echo '/index.html">' >> $DIR_HTML/index.html
-        echo -n '<link rel="canonical" href="https://${GITHUB_REPO_OWNER}.github.io/${GITHUB_PROJECT}/' >> $DIR_HTML/index.html
+        echo -n '<link rel="canonical" href="https://${GITHUB_USER}.github.io/${GITHUB_PROJECT}/' >> $DIR_HTML/index.html
         echo -n "${BRANCH}" >> $DIR_HTML/index.html
         echo '/index.html">' >> $DIR_HTML/index.html
         echo -e "</head>\n</html>" >> $DIR_HTML/index.html
