@@ -128,11 +128,11 @@ runs:
         cat "$DIR_HTML/README.md"
         echo ::endgroup::
         if ${{ inputs.multiversion }} ; then
+        echo ::group::Create an index.html to redirect to branch $BRANCH for multiversion docs
         BRANCH=${{ inputs.multiversion_redirect }}
         GITHUB_REPOSITORY_ARRAY = ($( echo GITHUB_REPOSITORY | tr '/' '\n'))
         GITHUB_REPO_OWNER = $GITHUB_REPOSITORY_ARRAY[1]
         GITHUB_PROJECT = $GITHUB_REPOSITORY_ARRAY[2]
-        echo ::group::Create an index.html to redirect to branch $BRANCH for multiversion docs
         echo -e "<!DOCTYPE html>\n<html>\n<head>" > $DIR_HTML/index.html
         echo -n "<title>Redirecting to " >> $DIR_HTML/index.html
         echo -n "${BRANCH}" >> $DIR_HTML/index.html
