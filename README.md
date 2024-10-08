@@ -101,7 +101,7 @@ jobs:
           dir_docs: docs
           sphinx-apidoc-opts: '--separate -o . ../'
           sphinx-apidoc-exclude: '../*setup* ../*.ipynb'
-          sphinxopts: ''
+          sphinx-opts: ''
           multiversion: true
           multiversion_redirect: 'main'
           multiversionopts: ''
