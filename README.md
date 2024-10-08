@@ -85,7 +85,7 @@ jobs:
       - name: Make conda environment
         uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: 3.9    # Python version to build the html sphinx documentation
+          python-version: 3.10    # Python version to build the html sphinx documentation
           environment-file: devtools/conda-envs/docs_env.yaml    # Path to the documentation conda environment
           auto-update-conda: false
           auto-activate-base: false
@@ -95,14 +95,14 @@ jobs:
         run: |
           python setup.py install
       - name: Running the Sphinx to gh-pages Action
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.1.0
+        uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.1.0
         with:
           branch: main
           dir_docs: docs
-          sphinxapiopts: '--separate -o . ../'
-          sphinxapiexclude: '../*setup* ../*.ipynb'
+          sphinx-apidoc-opts: '--separate -o . ../'
+          sphinx-apidoc-exclude: '../*setup* ../*.ipynb'
           sphinxopts: ''
-          multiversion: false
+          multiversion: true
           multiversion_redirect: 'main'
           multiversionopts: ''
 ```
@@ -114,28 +114,29 @@ YAML file to make a temporary Conda environment where the sphinx documentation c
 
 These are the input parameters of the action:
 
-| Input parameters        | Description                                                                                                                                                                                                                          | Default value    |
-|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
-| `branch`                | Name of the branch where the sphinx documentation is located                                                                                                                                                                         | `main`           |
-| `dir\_docs`             | Path where the sphinx documentation is located                                                                                                                                                                                       | `docs`           |
-| `sphinxopts`            | Compilation options for sphinx-build                                                                                                                                                                                                 | `'-o . ../'`     |
-| `spinxapiopts`          | Options passed to `sphinx-apidoc`, typically the output directory and location to look for modules.                                                                                                                                  | `''`             |
-| `sphinxapiexclude`      | Files to be excluded from API documentation generation, by default `tests/` are excluded.                                                                                                                                            | `*setup* tests*` |
-| `multiversion`          | Use [sphinx-multiversion](https://holzhaus.github.io/sphinx-multiversion/master/) to build multiple versions of the documentation. It is recommended to also use [sphinx-autoapi](https://sphinx-autoapi.readthedocs.io/en/latest/). | `false`          |
-| `multiversion_redirect` | Branch to redirect to by default.                                                                                                                                                                                                    |                  |
-| `multiversionopts`      | Options passed to `sphinx-multiversion` (see [documentation](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#overriding-configuration-variables))                                                           | `''`             |
+| Input parameters        | Description                                                                                         | Default value    |
+|-------------------------|-----------------------------------------------------------------------------------------------------|------------------|
+| `branch`                | Name of the branch where the sphinx documentation is located                                        | `main`           |
+| `branch-checkout-args`  | Arguments to pass to `git checkout`: `git checkout ${checkout-args} "${branch}"`                    | ''               |
+| `dir_docs`              | Path where the sphinx documentation is located                                                      | `docs`           |
+| `sphinx-apidoc`         | With sphinx-apidoc                                                                                  | true             |
+| `sphinx-apidoc-exclude` | With sphinx-apidoc                                                                                  | `*setup* tests*` |
+| `sphinx-apidoc-opts`    | Options for sphinx-apidoc (default outputs to dir_docs and searches for modules one level up)       | '-o . ../'       |
+| `sphinx-opts`           | Compilation options for sphinx-build                                                                | ''               |
+| `multiversion`     | Use [sphinx-multiversion]() to build multiple versions of the documentation. | `false` |
+| `multiversionopts` | Options passed to `sphinx-multiversion` (see [documentation](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#overriding-configuration-variables)) | `''` |
 
 They are placed in the last lines of the above workflow example file:
 
 ```yaml
       - name: Running the Sphinx to gh-pages Action
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.1.0
+        uses: uibcdf/action-sphinx-docs-to-gh-pages@v2.1.0
           with:
             branch: main
             dir_docs: docs
-            sphinxopts: ''
-            sphinxapiopts: '--separate -o . ../'
-            sphinxapiexclude: '../*.ipynb'
+            sphinx-opts: ''
+            sphinx-apidoc-opts: '--separate -o . ../'
+            sphinx-apidoc-exclude: '../*.ipynb'
             multiversion: false
             multiversionopts: ''
 ```
@@ -167,7 +168,7 @@ dependencies:
 
   # Write here all dependencies to compile the sphinx documentation.
   # This list is just an example
-  - python=3.9
+  - python=3.10
   - sphinx
   - sphinx_rtd_theme
   - sphinxcontrib-bibtex
@@ -246,7 +247,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: 3.10
       - name: Installing the Documentation requirements
         run: |
           pip3 install .[docs]
@@ -278,6 +279,10 @@ If you think that your GitHub Action should be mentioned here, fell free to PR w
 * [gh-pages-action](https://github.com/axetroy/gh-pages-action)
 * [ghaction-github-pages](https://github.com/crazy-max/ghaction-github-pages)
 * [actions-gh-pages](https://github.com/peaceiris/actions-gh-pages)
+
+### GitHub Push
+
+* [github-push-action](https://github.com/ad-m/github-push-action)
 
 ### Sphinx + GitHub Pages
 
