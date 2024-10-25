@@ -102,12 +102,15 @@ runs:
       run: |
         echo ::group::Sphinx docs compilation
         if ${{ inputs.multiversion }} ; then
-            if ${{ inputs.multiversionopts }} ; then
-                sphinx-multiversion ${{ inputs.multiversionopts }}
-            else
+            if [ -z ${{ inputs.multiversionopts }} ] ; then
+                echo "WE SHOULDN'T BE HERE!!!"
                 sphinx-multiversion . _build/html
+            else
+                echo "WE HAVE MADE IT HERE!!!"
+                sphinx-multiversion ${{ inputs.multiversionopts }}
             fi
         else
+            echo "DEFINITELY SHOULDN'T BE HERE!!!"
             sphinx-build -M html . _build ${{ inputs.sphinx-opts }}
         fi
         echo ::endgroup::
