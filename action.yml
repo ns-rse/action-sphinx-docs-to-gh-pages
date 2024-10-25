@@ -102,7 +102,11 @@ runs:
       run: |
         echo ::group::Sphinx docs compilation
         if ${{ inputs.multiversion }} ; then
-            sphinx-multiversion . _build/html ${{ inputs.multiversionopts }}
+            if ${{ inputs.multiversionopts }} ; then
+                sphinx-multiversion ${{ inputs.multiversionopts }}
+            else
+                sphinx-multiversion . _build/html
+            fi
         else
             sphinx-build -M html . _build ${{ inputs.sphinx-opts }}
         fi
