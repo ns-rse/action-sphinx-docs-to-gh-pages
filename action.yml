@@ -103,14 +103,11 @@ runs:
         echo ::group::Sphinx docs compilation
         if ${{ inputs.multiversion }} ; then
             if [ -z ${{ inputs.multiversionopts }} ] ; then
-                echo "WE SHOULDN'T BE HERE!!!"
                 sphinx-multiversion . _build/html
             else
-                echo "WE HAVE MADE IT HERE!!!"
                 sphinx-multiversion ${{ inputs.multiversionopts }}
             fi
         else
-            echo "DEFINITELY SHOULDN'T BE HERE!!!"
             sphinx-build -M html . _build ${{ inputs.sphinx-opts }}
         fi
         echo ::endgroup::
@@ -127,7 +124,12 @@ runs:
         if [ "${{ inputs.dir_docs }}" == "." ]; then
           DIR_HTML="_build/html/"
         else
-          DIR_HTML="${{ inputs.dir_docs }}/_build/html/"
+          if [ -z ${{ inputs.multiversionopts }} ] ; then
+              DIR_HTML="${{ inputs.dir_docs }}/_build/html/"
+          else
+              MULTIVERSION_DIR=$(echo ${{ inputs.multiversionopts}} | awk '{ print $NF}')
+              DIR_HTML="${{ inputs.dir_docs }}/$MULTIVERSION_DIR"
+          fi
         fi
         echo "#GitHub Pages" > "$DIR_HTML/README.md"
         echo "" >> "$DIR_HTML/README.md"
