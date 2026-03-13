@@ -114,7 +114,7 @@ runs:
     - name: pushing to gh-pages
       shell: bash
       run: |
-        echo ::group::Create README for gh-pages
+        echo ::group::Setup directories
         SHA=$GITHUB_SHA
         echo "$SHA $GITHUB_EVENT_NAME"
         if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
@@ -131,7 +131,13 @@ runs:
               DIR_HTML="${{ inputs.dir_docs }}/$MULTIVERSION_DIR"
           fi
         fi
+        echo ::endgroup::
+        echo ::group::Checking directories
         echo "Target (DIR_HTML) for building documentation : ${DIR_HTML}"
+        echo "$(ls -lha)"
+        echo "$(tree)"
+        echo ::endgroup::
+        echo ::group::Create README for gh-pages
         echo "#GitHub Pages" > "${DIR_HTML}/README.md"
         echo "" >> "${DIR_HTML}/README.md"
         echo "Last update of sphinx html documentation from [$SHORT_SHA](https://github.com/$GITHUB_REPOSITORY/tree/$SHA)" >> "${DIR_HTML}/README.md"
