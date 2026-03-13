@@ -131,6 +131,7 @@ runs:
               DIR_HTML="${{ inputs.dir_docs }}/$MULTIVERSION_DIR"
           fi
         fi
+        echo "Target (DIR_HTML) for building documentation : ${DIR_HTML}"
         echo "#GitHub Pages" > "${DIR_HTML}/README.md"
         echo "" >> "${DIR_HTML}/README.md"
         echo "Last update of sphinx html documentation from [$SHORT_SHA](https://github.com/$GITHUB_REPOSITORY/tree/$SHA)" >> "${DIR_HTML}/README.md"
